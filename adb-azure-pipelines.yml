@@ -1,17 +1,17 @@
 trigger:
   branches:
     include:
-    - devops-develop
+    - develop
  
 
   paths:
     include:
-    - DevOps/ADB
+    - DevOps/notebooks
     exclude:
-    - DevOps/yamlpipelines/adb-azure-pipelines.yml
+    - adb-azure-pipelines.yml
 
 variables:
-- group: dep-adb-qa
+- group: adb-selfhosted
 
 
 pool:
@@ -61,49 +61,49 @@ stages:
 #RELEASE STAGE in QA Env
 ###################  
 
-  - stage: ADB_DEV_Release
-    displayName: Deploying databricks notebook in QA
-    dependsOn: Build_ADB
-    #condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/develop'))
-    condition: succeeded('Build_ADB')
-    jobs:
-      - job:
-        displayName: "Deploying to QA"
-        pool:
-          vmImage: 'windows-latest'
-        # environment: daa-dev
-        # strategy:
-        #   runOnce:
-        #     deploy:
-        steps:
-          - task: DownloadBuildArtifacts@0
-            displayName: Download Build Artifactory
-            inputs:
-              buildType: 'current'
-              downloadType: 'single'
-              artifactName: 'drop'
-              downloadPath: '$(System.ArtifactsDirectory)'
+  # - stage: ADB_DEV_Release
+  #   displayName: Deploying databricks notebook in QA
+  #   dependsOn: Build_ADB
+  #   #condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/develop'))
+  #   condition: succeeded('Build_ADB')
+  #   jobs:
+  #     - job:
+  #       displayName: "Deploying to QA"
+  #       pool:
+  #         vmImage: 'windows-latest'
+  #       # environment: daa-dev
+  #       # strategy:
+  #       #   runOnce:
+  #       #     deploy:
+  #       steps:
+  #         - task: DownloadBuildArtifacts@0
+  #           displayName: Download Build Artifactory
+  #           inputs:
+  #             buildType: 'current'
+  #             downloadType: 'single'
+  #             artifactName: 'drop'
+  #             downloadPath: '$(System.ArtifactsDirectory)'
 
 
-          - powershell: |
-              tree "$(System.ArtifactsDirectory)" /F
-            displayName: 'Treeview of System.ArtifactsDirectory'
+  #         - powershell: |
+  #             tree "$(System.ArtifactsDirectory)" /F
+  #           displayName: 'Treeview of System.ArtifactsDirectory'
           
-          # - task: AzureKeyVault@1
-          #   inputs:
-          #     ConnectedServiceName: '$(ConnectedServiceName)'
-          #     #azureSubscription: 'Microsoft Azure Enterprise BigDataAI'
-          #     KeyVaultName: '$(keyvaultname)'
-          #     SecretsFilter: '*'
-          #     runAsPreJob: false
-          - task: databricksDeployScripts@0
-            inputs:
-              authMethod: 'bearer'
-              bearerToken: 'dapif8d8e59b23663e07781a4e5153e3129b-3'
-              region: '$(region)'
-              localPath: '$(System.ArtifactsDirectory)/drop'
-              #databricksPath: ''
-              clean: true        
+  #         # - task: AzureKeyVault@1
+  #         #   inputs:
+  #         #     ConnectedServiceName: '$(ConnectedServiceName)'
+  #         #     #azureSubscription: 'Microsoft Azure Enterprise BigDataAI'
+  #         #     KeyVaultName: '$(keyvaultname)'
+  #         #     SecretsFilter: '*'
+  #         #     runAsPreJob: false
+  #         - task: databricksDeployScripts@0
+  #           inputs:
+  #             authMethod: 'bearer'
+  #             bearerToken: 'dapif8d8e59b23663e07781a4e5153e3129b-3'
+  #             region: '$(region)'
+  #             localPath: '$(System.ArtifactsDirectory)/drop'
+  #             #databricksPath: ''
+  #             clean: true        
 
 
   
