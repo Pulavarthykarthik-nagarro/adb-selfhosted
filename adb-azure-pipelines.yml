@@ -37,24 +37,24 @@ stages:
               tree "$(System.DefaultWorkingDirectory)" /F
             displayName: 'Treeview of System.DefaultWorkingDirectory'
 
-          - task: CopyFiles@2
-            displayName: Copying files to Staging Directory
-            inputs:
-              SourceFolder: '$(system.defaultworkingdirectory)/DevOps/ADB'
-              Contents: '**'
-              TargetFolder: '$(build.artifactstagingdirectory)'
+          # - task: CopyFiles@2
+          #   displayName: Copying files to Staging Directory
+          #   inputs:
+          #     SourceFolder: '$(system.defaultworkingdirectory)/DevOps/ADB'
+          #     Contents: '**'
+          #     TargetFolder: '$(build.artifactstagingdirectory)'
 
 
-          - task: PublishBuildArtifacts@1
-            displayName: Publish Build Artifact in Dev
-            inputs:
-              PathtoPublish: '$(build.artifactstagingdirectory)'
-              ArtifactName: 'drop'
-              publishLocation: 'Container'
+          # - task: PublishBuildArtifacts@1
+          #   displayName: Publish Build Artifact in Dev
+          #   inputs:
+          #     PathtoPublish: '$(build.artifactstagingdirectory)'
+          #     ArtifactName: 'drop'
+          #     publishLocation: 'Container'
 
-          - powershell: |
-              tree "$(build.artifactstagingdirectory)" /F
-            displayName: 'Treeview of build.artifactstagingdirectory'
+          # - powershell: |
+          #     tree "$(build.artifactstagingdirectory)" /F
+          #   displayName: 'Treeview of build.artifactstagingdirectory'
 
 
 ###################
