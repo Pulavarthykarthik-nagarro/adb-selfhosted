@@ -31,7 +31,8 @@ stages:
         displayName: "Creating Artifact in Dev"
         
         pool:
-          vmImage: 'windows-latest'
+          name: 'demopool'
+          vmImage: 'demoagent'
         steps:
           - powershell: |
               tree "$(System.DefaultWorkingDirectory)" /F
