@@ -83,4 +83,15 @@ stages:
             displayName: 'Treeview of System.ArtifactsDirectory'
           
 
-                
+          - task: databricksDeployScripts@0
+            inputs:
+              authMethod: 'servicePrincipal'
+              region: 'eastus'
+              localPath: '$(System.ArtifactsDirectory)/drop'
+              databricksPath: '/Dataengineer'
+              applicationId: $(clientid)
+              subscriptionId: '52839916-4946-4937-80ee-50783ba2908e'
+              tenantId: $(tenant)
+              spSecret: $(clientsecret)
+              resourceGroup: 'testrg'
+              workspace: 'demorgdatabrickstest'
