@@ -11,7 +11,7 @@ trigger:
     - adb-azure-pipelines.yml
 
 variables:
-- group: adb-selfhosted
+# - group: adb-selfhosted
 - group: test-key-vault
 
 
