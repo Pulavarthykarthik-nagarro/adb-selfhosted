@@ -5,8 +5,8 @@ trigger:
  
 
   paths:
-    include:
-    - DevOps/notebooks
+    # include:
+    # - notebooks
     exclude:
     - adb-azure-pipelines.yml
 
