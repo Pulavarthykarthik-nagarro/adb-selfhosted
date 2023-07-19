@@ -1,17 +1,17 @@
 trigger:
   branches:
     include:
-    - devops-develop
+    - develop
  
 
   paths:
     include:
-    - DevOps/ADB
+    - DevOps/notebooks
     exclude:
-    - DevOps/yamlpipelines/adb-azure-pipelines.yml
+    - adb-azure-pipelines.yml
 
 variables:
-- group: dep-adb-qa
+- group: adb-selfhosted
 
 
 pool:
@@ -31,7 +31,8 @@ stages:
         displayName: "Creating Artifact in Dev"
         
         pool:
-          vmImage: 'windows-latest'
+          name: 'demopool'
+          vmImage: 'demoagent'
         steps:
           - powershell: |
               tree "$(System.DefaultWorkingDirectory)" /F
@@ -40,7 +41,7 @@ stages:
           - task: CopyFiles@2
             displayName: Copying files to Staging Directory
             inputs:
-              SourceFolder: '$(system.defaultworkingdirectory)/DevOps/ADB'
+              SourceFolder: '$(system.defaultworkingdirectory)/notebooks'
               Contents: '**'
               TargetFolder: '$(build.artifactstagingdirectory)'
 
@@ -71,10 +72,7 @@ stages:
         displayName: "Deploying to QA"
         pool:
           vmImage: 'windows-latest'
-        # environment: daa-dev
-        # strategy:
-        #   runOnce:
-        #     deploy:
+
         steps:
           - task: DownloadBuildArtifacts@0
             displayName: Download Build Artifactory
@@ -89,23 +87,5 @@ stages:
               tree "$(System.ArtifactsDirectory)" /F
             displayName: 'Treeview of System.ArtifactsDirectory'
           
-          # - task: AzureKeyVault@1
-          #   inputs:
-          #     ConnectedServiceName: '$(ConnectedServiceName)'
-          #     #azureSubscription: 'Microsoft Azure Enterprise BigDataAI'
-          #     KeyVaultName: '$(keyvaultname)'
-          #     SecretsFilter: '*'
-          #     runAsPreJob: false
-          - task: databricksDeployScripts@0
-            inputs:
-              authMethod: 'bearer'
-              bearerToken: 'dapif8d8e59b23663e07781a4e5153e3129b-3'
-              region: '$(region)'
-              localPath: '$(System.ArtifactsDirectory)/drop'
-              #databricksPath: ''
-              clean: true        
 
-
-  
-
-
+                
