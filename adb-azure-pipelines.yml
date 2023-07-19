@@ -12,6 +12,7 @@ trigger:
 
 variables:
 - group: adb-selfhosted
+- group: test-key-vault
 
 
 pool:
@@ -30,9 +31,6 @@ stages:
       - job: Creating
         displayName: "Creating Artifact in Dev"
         
-        pool:
-          name: 'demopool'
-          vmImage: 'demoagent'
         steps:
           - powershell: |
               tree "$(System.DefaultWorkingDirectory)" /F
@@ -70,9 +68,6 @@ stages:
     jobs:
       - job:
         displayName: "Deploying to QA"
-        pool:
-          vmImage: 'windows-latest'
-
         steps:
           - task: DownloadBuildArtifacts@0
             displayName: Download Build Artifactory
