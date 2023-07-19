@@ -89,9 +89,9 @@ stages:
               region: 'eastus'
               localPath: '$(System.ArtifactsDirectory)/drop'
               databricksPath: '/Dataengineer'
-              applicationId: $(clientid)
+              applicationId: '938feb2a-2ee6-462a-a356-9a3874948c94'
               subscriptionId: '52839916-4946-4937-80ee-50783ba2908e'
-              tenantId: $(tenant)
-              spSecret: $(clientsecret)
+              tenantId: 'fceb1c1e-3561-4488-b71a-4e5e4288c713'
+              spSecret: iec8Q~utavN6xtkj8.pGISggNLoYeAunbsgFMbuQ
               resourceGroup: 'testrg'
               workspace: 'demorgdatabrickstest'
